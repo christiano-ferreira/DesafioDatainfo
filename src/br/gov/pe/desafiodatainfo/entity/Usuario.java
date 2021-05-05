@@ -3,6 +3,7 @@ package br.gov.pe.desafiodatainfo.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,29 +12,25 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.Email;
-
 @Entity
 @Table(name = "usuarios")
-@SuppressWarnings("deprecation")
 public class Usuario {
 	@Id
-    @Column(name="id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long id;
 
-	@Column(name="nome")
-    private String nome;
+	@Column(name = "nome")
+	private String nome;
 
-	@Email
-	@Column(name="email")
-    private String email;
+	@Column(name = "email")
+	private String email;
 
-	@Column(name="senha")
-    private String senha;
+	@Column(name = "senha")
+	private String senha;
 
-	@OneToMany(mappedBy="usuario")
-    private List<Telefone> telefones = new ArrayList<>();
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE, orphanRemoval = true)
+	private List<Telefone> telefones = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -68,7 +65,7 @@ public class Usuario {
 	}
 
 	public void setSenha(String senha) {
-		this.senha= senha;
+		this.senha = senha;
 	}
 
 	public void setTelefones(List<Telefone> telefones) {

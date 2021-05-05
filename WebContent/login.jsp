@@ -20,12 +20,12 @@
 					<div class="panel-body">
    						<div class="form-group" style="text-align: left">
        						<label for="email">Usuário</label>
-       						<input type="email" class="form-control" id="email" placeholder="Digite o email" required="required" autofocus>
+       						<input type="email" class="form-control" id="email" placeholder="Digite o email" required autofocus>
    						</div>
 
    						<div class="form-group" style="text-align: left">
        						<label for="senha">Senha</label>
-       						<input type="password" class="form-control" id="senha" placeholder="Digite a senha" required="required">
+       						<input type="password" class="form-control" id="senha" placeholder="Digite a senha" required>
    						</div>
 
    						<button style="width: 100%; font-size:1.1em; background-color: blue" class="btn btn-large btn btn-success btn-lg btn-block" id="bttLogin"><b>Login</b></button>

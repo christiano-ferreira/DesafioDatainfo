@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
 	version="2.2">
 
-	<persistence-unit name="DesafioSefaz">
+	<persistence-unit name="DesafioDatainfo">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>		
 
 		<class>br.gov.pe.desafiodatainfo.entity.Usuario</class>

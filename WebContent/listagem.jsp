@@ -35,37 +35,42 @@
 
 			<div id="list" class="row">
 				<div class="table-responsive col-md-12">
-        			<table class="table table-striped">
-            			<thead>
-                			<tr>
-                    			<th>ID</th>
-                    			<th>Nome</th>
-                    			<th>Email</th>
-                    			<th>Senha</th>
-                    			<th class="actions">Ações</th>
-                 			</tr>
-            			</thead>
+					<form id="formAcoes" method="post">
+	        			<table class="table table-striped">
+	            			<thead>
+	                			<tr>
+	                    			<th>ID</th>
+	                    			<th>Nome</th>
+	                    			<th>Email</th>
+	                    			<th>Senha</th>
+	                    			<th class="actions">Ações</th>
+	                 			</tr>
+	            			</thead>
 
-            			<tbody>
-							<%UsuarioDao usuarioDao = new UsuarioDao();
-							List<Usuario> listaUsuarios = usuarioDao.listar(false);
+	            			<tbody>
+								<%UsuarioDao usuarioDao = new UsuarioDao();
+								List<Usuario> listaUsuarios = usuarioDao.listar(false);
 
-							for (Usuario usuario : listaUsuarios) {%>
-                				<tr>
-                    				<td><%=usuario.getId()%></td>
-									<td><%=usuario.getNome()%></td>
-									<td><%=usuario.getEmail()%></td>
-									<td><%=usuario.getSenha()%></td>
+								for (Usuario usuario : listaUsuarios) {%>
+	               					<tr>
+	                   					<td><%=usuario.getId()%></td>
+										<td><%=usuario.getNome()%></td>
+										<td><%=usuario.getEmail()%></td>
+										<td><%=usuario.getSenha()%></td>
 
-                    				<td class="actions">
-                        				<button class="btn btn-success btn-xs" id="bttConsultar">Consultar</button>
-                        				<button class="btn btn-warning btn-xs" id="bttAlterar">Alterar</button>
-                        				<button class="btn btn-danger btn-xs" id="bttExcluir">Excluir</button>
-                    				</td>
-                				</tr>
-							<%}%>
-             			</tbody>
-         			</table>
+	                   					<td class="actions">
+	                       					<button class="btn btn-success btn-xs" id="bttConsultar" name="bttConsultar"
+	                       						onClick='submitConsultar()' value="<%=usuario.getId()%>">Consultar</button>
+	                       					<button class="btn btn-warning btn-xs" id="bttAlterar" name="bttAlterar"
+	                       						onClick='submitAlterar()' value="<%=usuario.getId()%>">Alterar</button>
+	                       					<button class="btn btn-danger btn-xs" id="bttExcluir" name="bttExcluir"
+	                       						onClick='submitExcluir()' value="<%=usuario.getId()%>">Excluir</button>
+	                   					</td>
+	               					</tr>
+								<%}%>
+	             			</tbody>
+	         			</table>
+         			</form>
      			</div>
 			</div>
 
@@ -79,8 +84,25 @@
 		<script>
 			'use strict'
 
+			function submitConsultar() {
+				$('#formAcoes').attr('action', 'ConsultarServlet');
+				$("#formAcoes").submit();
+    		}
+
+			function submitAlterar() {
+				$('#formAcoes').attr('action', 'AlterarUsuarioServlet');
+				$('#formAcoes').submit();
+    		}
+
+			function submitExcluir() {
+				if (confirm("Deseja realmente excluir esse usuário e seus telefones?")) {
+					$('#formAcoes').attr('action', 'ExcluirUsuarioServlet');
+					$("#formAcoes").submit();
+				}
+			}
+
 			$('#bttAdicionar').click(function() {
-				window.location.href= "adicionar.jsp";
+				window.location.href= 'adicionar.jsp';
 			});
 		</script>
 	</body>

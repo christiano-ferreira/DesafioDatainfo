@@ -33,7 +33,60 @@ public class UsuarioDao implements Dao<Usuario> {
 		return usuario;
 	}
 
+	public Usuario buscarPorId(final Long id, boolean comTelefones) {
+		Usuario usuario = new Usuario();
+
+		try {
+			usuario = EntityFactory.getEntityManager().find(Usuario.class, id);
+
+			if (comTelefones) {
+				Hibernate.initialize(usuario.getTelefones());
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			EntityFactory.closeEntityManager();
+			EntityFactory.closeEntityManagerFactory();
+		}
+
+		return usuario;
+	}
+
+	public Usuario alterar(Usuario usuario) {
+		try {
+			EntityFactory.getEntityManager().getTransaction().begin();
+			usuario = EntityFactory.getEntityManager().merge(usuario);
+			EntityFactory.getEntityManager().getTransaction().commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			EntityFactory.getEntityManager().getTransaction().rollback();
+		} finally {
+			EntityFactory.closeEntityManager();
+			EntityFactory.closeEntityManagerFactory();
+		}
+
+		return usuario;
+	}
+
 	@Override
+	public void excluir(final Long idUusuario) {
+		try {
+			EntityFactory.getEntityManager().getTransaction().begin();
+
+			Usuario usuario = EntityFactory.getEntityManager().find(Usuario.class, idUusuario);
+			Hibernate.initialize(usuario.getTelefones());
+
+			EntityFactory.getEntityManager().remove(usuario);
+			EntityFactory.getEntityManager().getTransaction().commit();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			EntityFactory.getEntityManager().getTransaction().rollback();
+		} finally {
+			EntityFactory.closeEntityManager();
+			EntityFactory.closeEntityManagerFactory();
+		}
+	}
+
 	public List<Usuario> listar(boolean comTelefones) {
 		List<Usuario> listaUsuarios = new ArrayList<>();
 
@@ -57,64 +110,6 @@ public class UsuarioDao implements Dao<Usuario> {
 		}
 
 		return listaUsuarios;
-	}
-
-	@Override
-	public Usuario buscarPorId(final Long id, boolean comTelefones) {
-		Usuario usuario = new Usuario();
-
-		try {
-			usuario = EntityFactory.getEntityManager().find(Usuario.class, id);
-
-			if (comTelefones) {
-				Hibernate.initialize(usuario.getTelefones());
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			EntityFactory.closeEntityManager();
-			EntityFactory.closeEntityManagerFactory();
-		}
-
-		return usuario;
-	}
-
-	@Override
-	public void alterar(Long idUsuario, Usuario usuarioAlterado) {
-		Usuario usuarioBanco = buscarPorId(idUsuario, false);
-
-		usuarioBanco.setNome(usuarioAlterado.getNome());
-		usuarioBanco.setEmail(usuarioAlterado.getEmail());
-		usuarioBanco.setSenha(usuarioAlterado.getSenha());
-
-		try {
-			EntityFactory.getEntityManager().getTransaction().begin();
-			EntityFactory.getEntityManager().merge(usuarioBanco);
-			EntityFactory.getEntityManager().getTransaction().commit();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			EntityFactory.getEntityManager().getTransaction().rollback();
-		} finally {
-			EntityFactory.closeEntityManager();
-			EntityFactory.closeEntityManagerFactory();
-		}
-	}
-
-	@Override
-	public void excluir(Usuario usuario) {
-		Usuario usuarioBanco = buscarPorId(usuario.getId(), false);
-
-		try {
-			EntityFactory.getEntityManager().getTransaction().begin();
-			EntityFactory.getEntityManager().remove(usuarioBanco);
-			EntityFactory.getEntityManager().getTransaction().commit();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			EntityFactory.getEntityManager().getTransaction().rollback();
-		} finally {
-			EntityFactory.closeEntityManager();
-			EntityFactory.closeEntityManagerFactory();
-		}
 	}
 
 	public boolean validaLogin(String email, String senha) {

@@ -26,7 +26,7 @@ public class EntityFactory {
 
 	private static EntityManagerFactory getEntityManagerFactory() {
 		if (entityManagerFactory == null || !entityManagerFactory.isOpen()) {
-			entityManagerFactory = Persistence.createEntityManagerFactory("DesafioSefaz");
+			entityManagerFactory = Persistence.createEntityManagerFactory("DesafioDatainfo");
 		}
 
 		return entityManagerFactory;

@@ -7,6 +7,7 @@
     	<welcome-file>login.jsp</welcome-file>
   	</welcome-file-list>
 
+	<!-- Mapeamento para login -->
 	<servlet>
     	<servlet-name>LoginServlet</servlet-name>
     	<servlet-class>br.gov.pe.desafiodatainfo.servlet.LoginServlet</servlet-class>
@@ -17,6 +18,7 @@
     	<url-pattern>/LoginServlet/*</url-pattern>
   	</servlet-mapping>
 
+	<!-- Mapeamento para usuário -->
 	<servlet>
     	<servlet-name>AdicionarServlet</servlet-name>
     	<servlet-class>br.gov.pe.desafiodatainfo.servlet.AdicionarServlet</servlet-class>
@@ -25,5 +27,56 @@
 	<servlet-mapping>
     	<servlet-name>AdicionarServlet</servlet-name>
     	<url-pattern>/AdicionarServlet/*</url-pattern>
+  	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>ConsultarServlet</servlet-name>
+    	<servlet-class>br.gov.pe.desafiodatainfo.servlet.ConsultarServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+    	<servlet-name>ConsultarServlet</servlet-name>
+    	<url-pattern>/ConsultarServlet/*</url-pattern>
+  	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>AlterarUsuarioServlet</servlet-name>
+    	<servlet-class>br.gov.pe.desafiodatainfo.servlet.AlterarUsuarioServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+    	<servlet-name>AlterarUsuarioServlet</servlet-name>
+    	<url-pattern>/AlterarUsuarioServlet/*</url-pattern>
+  	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>ExcluirUsuarioServlet</servlet-name>
+    	<servlet-class>br.gov.pe.desafiodatainfo.servlet.ExcluirUsuarioServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+    	<servlet-name>ExcluirUsuarioServlet</servlet-name>
+    	<url-pattern>/ExcluirUsuarioServlet/*</url-pattern>
+  	</servlet-mapping>
+
+	<!-- Mapeamento para telefone -->
+	<servlet>
+    	<servlet-name>AdicionarTelefoneServlet</servlet-name>
+    	<servlet-class>br.gov.pe.desafiodatainfo.servlet.AdicionarTelefoneServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+    	<servlet-name>AdicionarTelefoneServlet</servlet-name>
+    	<url-pattern>/AdicionarTelefoneServlet/*</url-pattern>
+  	</servlet-mapping>
+
+	<servlet>
+    	<servlet-name>ExcluirTelefoneServlet</servlet-name>
+    	<servlet-class>br.gov.pe.desafiodatainfo.servlet.ExcluirTelefoneServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+    	<servlet-name>ExcluirTelefoneServlet</servlet-name>
+    	<url-pattern>/ExcluirTelefoneServlet/*</url-pattern>
   	</servlet-mapping>
 </web-app>

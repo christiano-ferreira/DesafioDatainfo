@@ -13,22 +13,22 @@ import javax.persistence.Table;
 @Table(name = "telefones")
 public class Telefone {
 	@Id
-    @Column(name="id")
+	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long id;
 
-	@Column(name="ddd")
-    private int ddd;
+	@Column(name = "ddd")
+	private int ddd;
 
-	@Column(name="numero")
-    private String numero;
+	@Column(name = "numero")
+	private String numero;
 
-	@Column(name="tipo")
-    private String tipo;
+	@Column(name = "tipo")
+	private String tipo;
 
 	@ManyToOne
-    @JoinColumn(name = "idUsuario")
-    private Usuario usuario;
+	@JoinColumn(name = "idUsuario")
+	private Usuario usuario;
 
 	public Long getId() {
 		return id;

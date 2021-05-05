@@ -24,29 +24,29 @@ public class AdicionarServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Long idUsuario = null;
-		Usuario usuario = new Usuario();
+		UsuarioDao usuarioDao = new UsuarioDao();
 
-		if (request.getParameter("idUsuario") != null) {
+		if (request.getParameter("idUsuario") != null && !request.getParameter("idUsuario").trim().equals("")) {
 			idUsuario = Long.parseLong(request.getParameter("idUsuario"));
 		}
 
-		usuario.setId(idUsuario);
-		usuario.setNome(request.getParameter("nome").trim());
-		usuario.setEmail(request.getParameter("email").trim());
-		usuario.setSenha(request.getParameter("senha").trim());
+		if (request.getParameter("bttAdicionar").equalsIgnoreCase("Usuario")) {
+			Usuario usuario = new Usuario();
 
-		if (request.getParameter("bttAdicionar") == "Usuario") {
-			UsuarioDao usuarioDao = new UsuarioDao();
+			usuario.setId(idUsuario);
+			usuario.setNome(request.getParameter("nome").trim());
+			usuario.setEmail(request.getParameter("email").trim());
+			usuario.setSenha(request.getParameter("senha").trim());
 
 			usuario = usuarioDao.inserir(usuario);
 
-			request.setAttribute("idUsuario", usuario.getId());
-			request.setAttribute("nome", usuario.getNome());
-			request.setAttribute("email", usuario.getEmail());
-			request.setAttribute("senha", usuario.getSenha());
-		} else if (request.getParameter("bttAdicionar") == "Telefone") {
-			TelefoneDao telefoneDao = new TelefoneDao();
+			request.setAttribute("usuario", usuario);
+		} else if (request.getParameter("bttAdicionar").equalsIgnoreCase("Telefone")) {
+			Usuario usuario = new Usuario();
+			usuario = usuarioDao.buscarPorId(idUsuario, false);
+
 			Telefone telefone = new Telefone();
+			TelefoneDao telefoneDao = new TelefoneDao();
 
 			telefone.setDdd(Integer.parseInt(request.getParameter("ddd").trim()));
 			telefone.setNumero(request.getParameter("numero").trim());
@@ -55,10 +55,7 @@ public class AdicionarServlet extends HttpServlet {
 
 			telefone = telefoneDao.inserir(telefone);
 
-			request.setAttribute("idUsuario", telefone.getUsuario().getId());
-			request.setAttribute("nome", telefone.getUsuario().getNome());
-			request.setAttribute("email", telefone.getUsuario().getEmail());
-			request.setAttribute("senha", telefone.getUsuario().getSenha());
+			request.setAttribute("usuario", telefone.getUsuario());
 		}
 
 		RequestDispatcher reqDis = request.getRequestDispatcher("/adicionar.jsp");

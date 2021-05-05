@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
+<%@ page import="br.gov.pe.desafiodatainfo.entity.Usuario"%>
+
 <!DOCTYPE html>
 
 <html>
@@ -29,27 +31,25 @@
 				</div>
 			</div>
 
-			<input type="hidden" id="idUsuario" name="idUsuario"
-				value="<%=(request.getAttribute("idUsuario") != null) ? request.getAttribute("idUsuario") : ""%>">
+			<%Usuario usuario = (Usuario) request.getAttribute("usuario");%>
 
 			<form action="AdicionarServlet" method="post">
+				<input type="hidden" id="idUsuario" name="idUsuario" value="<%=(usuario != null) ? usuario.getId() : ""%>">
+
 				<div class="row">
 					<div class="form-group col-md-4">
 						<label for="nome">Nome</label>
-						<input type="text" class="form-control" id="nome" name="nome" autofocus="autofocus"
-							value="<%=(request.getAttribute("nome") != null) ? request.getAttribute("nome") : ""%>">
+						<input type="text" class="form-control" id="nome" name="nome" autofocus value="<%=(usuario != null) ? usuario.getNome() : ""%>">
 					</div>
 
 					<div class="form-group col-md-4">
 						<label for="email">Email</label>
-						<input type="email" class="form-control" id="email" name="email"
-							value="<%=(request.getAttribute("email") != null) ? request.getAttribute("email") : ""%>">
+						<input type="email" class="form-control" id="email" name="email" value="<%=(usuario != null) ? usuario.getEmail() : ""%>">
 					</div>
 
 					<div class="form-group col-md-4">
 						<label for="senha">Senha</label>
-						<input type="password" class="form-control" id="senha" name="senha"
-							value="<%=(request.getAttribute("senha") != null) ? request.getAttribute("senha") : ""%>">
+						<input type="password" class="form-control" id="senha" name="senha" value="<%=(usuario != null) ? usuario.getSenha() : ""%>">
 					</div>
 				</div>
 
@@ -68,17 +68,17 @@
 				<div class="row">
 					<div class="form-group col-md-2">
 						<label for="ddd">DDD</label>
-						<input type="text" class="form-control" id="ddd">
+						<input type="number" class="form-control" id="ddd" name="ddd">
 					</div>
 
 					<div class="form-group col-md-4">
 						<label for="numero">Número</label>
-						<input type="text" class="form-control" id="numero">
+						<input type="text" class="form-control" id="numero" name="numero">
 					</div>
 
 					<div class="form-group col-md-4">
 						<label for="tipo">Tipo</label>
-						<input type="text" class="form-control" id="tipo">
+						<input type="text" class="form-control" id="tipo" name="tipo">
 					</div>
 
 					<div class="form-group col-md-12">
@@ -97,14 +97,20 @@
 		<script>
 			'use strict'
 
-			if ($('#idUsuario').val() == '') {
-				$('#bttAdicionarTelefone').attr('disabled', 'disabled');
-			} else {
+			$('#ddd').attr('disabled', 'disabled');
+			$('#numero').attr('disabled', 'disabled');
+			$('#tipo').attr('disabled', 'disabled');
+			$('#bttAdicionarTelefone').attr('disabled', 'disabled');
+
+			if ($('#idUsuario').val() != '') {
 				$('#nome').attr('disabled', 'disabled');
 				$('#email').attr('disabled', 'disabled');
 				$('#senha').attr('disabled', 'disabled');
 				$('#bttAdicionarUsuario').attr('disabled', 'disabled');
 
+				$('#ddd').removeAttr('disabled');
+				$('#numero').removeAttr('disabled');
+				$('#tipo').removeAttr('disabled');
 				$('#bttAdicionarTelefone').removeAttr('disabled');
 			}
 
