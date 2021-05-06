@@ -9,8 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.gov.pe.desafiodatainfo.dao.UsuarioDao;
+import br.gov.pe.desafiodatainfo.entity.Usuario;
 
-public class ExcluirUsuarioServlet extends HttpServlet {
+public class SalvarUsuarioServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -20,12 +21,21 @@ public class ExcluirUsuarioServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Long idUsuario = Long.parseLong(request.getParameter("bttExcluir"));
-
+		Usuario usuario = new Usuario();
 		UsuarioDao usuarioDao = new UsuarioDao();
-		usuarioDao.excluir(idUsuario);
+		Long idUsuario = Long.parseLong(request.getParameter("idUsuario"));
 
-		RequestDispatcher reqDis = request.getRequestDispatcher("/listagem.jsp");
+		usuario.setId(idUsuario);
+		usuario.setNome(request.getParameter("nome").trim());
+		usuario.setEmail(request.getParameter("email").trim());
+		usuario.setSenha(request.getParameter("senha").trim());
+
+		usuario = usuarioDao.alterar(usuario);
+
+		request.setAttribute("usuario", usuario);
+		request.setAttribute("mensagemRetorno", "Usuário salvo com sucesso!");
+
+		RequestDispatcher reqDis = request.getRequestDispatcher("/alterarUsuario.jsp");
 		reqDis.forward(request, response);
 	}
 }

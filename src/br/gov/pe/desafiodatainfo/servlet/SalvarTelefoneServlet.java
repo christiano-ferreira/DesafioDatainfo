@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.gov.pe.desafiodatainfo.dao.TelefoneDao;
 import br.gov.pe.desafiodatainfo.dao.UsuarioDao;
+import br.gov.pe.desafiodatainfo.entity.Telefone;
 import br.gov.pe.desafiodatainfo.entity.Usuario;
 
-public class AlterarUsuarioServlet extends HttpServlet {
+public class SalvarTelefoneServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -23,13 +25,24 @@ public class AlterarUsuarioServlet extends HttpServlet {
 			throws ServletException, IOException {
 		Usuario usuario = new Usuario();
 		UsuarioDao usuarioDao = new UsuarioDao();
-		Long idUsuario = Long.parseLong(request.getParameter("bttAlterar"));
+		Long idUsuario = Long.parseLong(request.getParameter("idUsuario"));
 
 		usuario = usuarioDao.buscarPorId(idUsuario, false);
 
-		request.setAttribute("usuario", usuario);
+		Telefone telefone = new Telefone();
+		TelefoneDao telefoneDao = new TelefoneDao();
 
-		RequestDispatcher reqDis = request.getRequestDispatcher("/alterarUsuario.jsp");
+		telefone.setDdd(Integer.parseInt(request.getParameter("ddd")));
+		telefone.setNumero(request.getParameter("numero").trim());
+		telefone.setTipo(request.getParameter("tipo").trim());
+		telefone.setUsuario(usuario);
+
+		telefone = telefoneDao.inserir(telefone);
+
+		request.setAttribute("idUsuario", Long.toString(telefone.getUsuario().getId()));
+		request.setAttribute("mensagemRetorno", "Telefone adicionado com sucesso!");
+
+		RequestDispatcher reqDis = request.getRequestDispatcher("/adicionarTelefone.jsp");
 		reqDis.forward(request, response);
 	}
 }

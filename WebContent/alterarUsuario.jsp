@@ -26,8 +26,13 @@
 
 		<div id="main" class="container-fluid">
  			<div class="row">
-				<div class="col-md-12">
+				<div class="col-md-6">
 					<h3 class="page-header">Alterar usuário</h3>
+				</div>
+
+				<div class="col-md-6">
+					<%String mensagemRetorno = (String) request.getAttribute("mensagemRetorno");%>
+					<h3 id="mensagemRetorno" class="page-header" style="color:green"><%=(mensagemRetorno != null) ? mensagemRetorno : ""%></h3>
 				</div>
 			</div>
 
@@ -38,28 +43,27 @@
 
 				<div class="row">
 					<div class="form-group col-md-4">
-						<label for="nome">Nome</label>
+						<label for="nome">Nome</label><span style="color:red"> *</span>
 						<input type="text" class="form-control" id="nome" name="nome" autofocus value="<%=(usuario != null) ? usuario.getNome() : ""%>">
 					</div>
 
 					<div class="form-group col-md-4">
-						<label for="email">Email</label>
+						<label for="email">Email</label><span style="color:red"> *</span>
 						<input type="email" class="form-control" id="email" name="email" value="<%=(usuario != null) ? usuario.getEmail() : ""%>">
 					</div>
 
 					<div class="form-group col-md-4">
-						<label for="senha">Senha</label>
-						<input type="text" class="form-control" id="senha" name="senha" value="<%=(usuario != null) ? usuario.getSenha() : ""%>">
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="form-group col-md-12">
-						<button class="btn btn-success btn-xs" id="bttAlterar" name="bttAlterar"
-							onClick='submitAlterar()' value="Salvar">Alterar</button>
+						<label for="senha">Senha</label><span style="color:red"> *</span>
+						<input type="password" class="form-control" id="senha" name="senha" value="<%=(usuario != null) ? usuario.getSenha() : ""%>">
 					</div>
 				</div>
 			</form>
+
+			<div class="row">
+				<div class="form-group col-md-12">
+					<button class="btn btn-success btn-xs" id="bttSalvar" name="bttSalvar">Salvar</button>
+				</div>
+			</div>
 
 			<div id="botton" class="row">
 				<div class="col-md-12">
@@ -71,14 +75,51 @@
 		<script>
 			'use strict'
 
-			function submitAlterar() {
-				$('#formAcoes').attr('action', 'AlterarUsuarioServlet');
-				$('#formAcoes').submit();
-    		}
+			$('#bttSalvar').click(function() {
+				if (validaInputsUsuario()) {
+					$('#formAcoes').attr('action', 'SalvarUsuarioServlet');
+					$('#formAcoes').submit();
+				}
+			});
 
 			$('#bttVoltar').click(function() {
 				window.location.href= "listagem.jsp";
 			});
+
+			function validaInputsUsuario() {
+				let nome = $('#nome').val();
+				let email = $('#email').val();
+				let senha = $('#senha').val();
+
+				let usuarioValido = (nome.trim().length >= 1) && (email.trim().length >= 1) && (senha.trim().length >= 1); 					
+
+				if (!usuarioValido) {
+					alert('Campos com * são obrigatórios!');
+
+					return false;
+				} else {
+					let usuario = email.substring(0, email.indexOf("@"));
+					let dominio = email.substring(email.indexOf("@")+ 1, email.length);
+
+					let emailValido = (usuario.length >=1) &&
+   						(dominio.length >=3) &&
+   						(usuario.search("@")==-1) &&
+   						(dominio.search("@")==-1) &&
+   						(usuario.search(" ")==-1) &&
+   						(dominio.search(" ")==-1) &&
+   						(dominio.search(".")!=-1) &&
+   						(dominio.indexOf(".") >=1)&&
+   						(dominio.lastIndexOf(".") < dominio.length - 1);
+
+					if (!emailValido) {
+						alert('Entre com um EMAIL válido!');
+
+						return false;
+					}
+				}
+
+				return true;
+			}
 		</script>
 	</body>
 </html>

@@ -22,23 +22,21 @@ public class ExcluirTelefoneServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (request.getParameter("bttExcluir") != null && !request.getParameter("bttExcluir").equals("")) {
-			Long idTelefone = Long.parseLong(request.getParameter("bttExcluir"));
+		Long idTelefone = Long.parseLong(request.getParameter("bttExcluir"));
 
-			TelefoneDao telefoneDao = new TelefoneDao();
-			telefoneDao.excluir(idTelefone);
+		TelefoneDao telefoneDao = new TelefoneDao();
+		telefoneDao.excluir(idTelefone);
 
-			Long idUsuario = Long.parseLong(request.getParameter("idUsuario"));
+		Long idUsuario = Long.parseLong(request.getParameter("idUsuario"));
 
-			Usuario usuario = new Usuario();
-			UsuarioDao usuarioDao = new UsuarioDao();
+		Usuario usuario = new Usuario();
+		UsuarioDao usuarioDao = new UsuarioDao();
 
-			usuario = usuarioDao.buscarPorId(idUsuario, true);
+		usuario = usuarioDao.buscarPorId(idUsuario, true);
 
-			request.setAttribute("usuario", usuario);
+		request.setAttribute("usuario", usuario);
 
-			RequestDispatcher reqDis = request.getRequestDispatcher("/consultar.jsp");
-			reqDis.forward(request, response);
-		} 
+		RequestDispatcher reqDis = request.getRequestDispatcher("/consultar.jsp");
+		reqDis.forward(request, response);
 	}
 }

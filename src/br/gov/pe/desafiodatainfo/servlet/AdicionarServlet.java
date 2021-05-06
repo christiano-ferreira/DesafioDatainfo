@@ -24,15 +24,15 @@ public class AdicionarServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Long idUsuario = null;
+
+		Usuario usuario = new Usuario();
 		UsuarioDao usuarioDao = new UsuarioDao();
 
 		if (request.getParameter("idUsuario") != null && !request.getParameter("idUsuario").trim().equals("")) {
 			idUsuario = Long.parseLong(request.getParameter("idUsuario"));
 		}
 
-		if (request.getParameter("bttAdicionar").equalsIgnoreCase("Usuario")) {
-			Usuario usuario = new Usuario();
-
+		if (idUsuario == null) {
 			usuario.setId(idUsuario);
 			usuario.setNome(request.getParameter("nome").trim());
 			usuario.setEmail(request.getParameter("email").trim());
@@ -41,14 +41,14 @@ public class AdicionarServlet extends HttpServlet {
 			usuario = usuarioDao.inserir(usuario);
 
 			request.setAttribute("usuario", usuario);
-		} else if (request.getParameter("bttAdicionar").equalsIgnoreCase("Telefone")) {
-			Usuario usuario = new Usuario();
+			request.setAttribute("mensagemRetornoUsuario", "Usuário adicionado com sucesso!");
+		} else {
 			usuario = usuarioDao.buscarPorId(idUsuario, false);
 
 			Telefone telefone = new Telefone();
 			TelefoneDao telefoneDao = new TelefoneDao();
 
-			telefone.setDdd(Integer.parseInt(request.getParameter("ddd").trim()));
+			telefone.setDdd(Integer.parseInt(request.getParameter("ddd")));
 			telefone.setNumero(request.getParameter("numero").trim());
 			telefone.setTipo(request.getParameter("tipo").trim());
 			telefone.setUsuario(usuario);
@@ -56,6 +56,7 @@ public class AdicionarServlet extends HttpServlet {
 			telefone = telefoneDao.inserir(telefone);
 
 			request.setAttribute("usuario", telefone.getUsuario());
+			request.setAttribute("mensagemRetornoTelefone", "Telefone adicionado com sucesso!");
 		}
 
 		RequestDispatcher reqDis = request.getRequestDispatcher("/adicionar.jsp");

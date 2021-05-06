@@ -21,21 +21,16 @@ public class ConsultarServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		if (request.getParameter("bttConsultar") != null && !request.getParameter("bttConsultar").equals("")) {
-			Long idUsuario = Long.parseLong(request.getParameter("bttConsultar"));
+		Long idUsuario = Long.parseLong(request.getParameter("bttConsultar"));
 
-			Usuario usuario = new Usuario();
-			UsuarioDao usuarioDao = new UsuarioDao();
+		Usuario usuario = new Usuario();
+		UsuarioDao usuarioDao = new UsuarioDao();
 
-			usuario = usuarioDao.buscarPorId(idUsuario, true);
+		usuario = usuarioDao.buscarPorId(idUsuario, true);
 
-			request.setAttribute("usuario", usuario);
+		request.setAttribute("usuario", usuario);
 
-			RequestDispatcher reqDis = request.getRequestDispatcher("/consultar.jsp");
-			reqDis.forward(request, response);
-		} else {
-			RequestDispatcher reqDis = request.getRequestDispatcher("/listagem.jsp");
-			reqDis.forward(request, response);
-		}
+		RequestDispatcher reqDis = request.getRequestDispatcher("/consultar.jsp");
+		reqDis.forward(request, response);
 	}
 }

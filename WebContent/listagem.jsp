@@ -59,12 +59,12 @@
 										<td><%=usuario.getSenha()%></td>
 
 	                   					<td class="actions">
-	                       					<button class="btn btn-success btn-xs" id="bttConsultar" name="bttConsultar"
-	                       						onClick='submitConsultar()' value="<%=usuario.getId()%>">Consultar</button>
-	                       					<button class="btn btn-warning btn-xs" id="bttAlterar" name="bttAlterar"
-	                       						onClick='submitAlterar()' value="<%=usuario.getId()%>">Alterar</button>
-	                       					<button class="btn btn-danger btn-xs" id="bttExcluir" name="bttExcluir"
-	                       						onClick='submitExcluir()' value="<%=usuario.getId()%>">Excluir</button>
+	                       					<button class="btn btn-success btn-xs" id="bttConsultar" name="bttConsultar" value="<%=usuario.getId()%>"
+	                       						onClick="submitConsultar()">Consultar</button>
+	                       					<button class="btn btn-warning btn-xs" id="bttAlterar" name="bttAlterar" value="<%=usuario.getId()%>"
+	                       						onClick="submitAlterar()">Alterar</button>
+	                       					<button class="btn btn-danger btn-xs" id="bttExcluir" name="bttExcluir" value="<%=usuario.getId()%>"
+	                       						onClick="submitExcluir()">Excluir</button>
 	                   					</td>
 	               					</tr>
 								<%}%>
@@ -86,13 +86,13 @@
 
 			function submitConsultar() {
 				$('#formAcoes').attr('action', 'ConsultarServlet');
-				$("#formAcoes").submit();
-    		}
+				$('#formAcoes').submit();
+			}
 
 			function submitAlterar() {
 				$('#formAcoes').attr('action', 'AlterarUsuarioServlet');
 				$('#formAcoes').submit();
-    		}
+			}
 
 			function submitExcluir() {
 				if (confirm("Deseja realmente excluir esse usuário e seus telefones?")) {
